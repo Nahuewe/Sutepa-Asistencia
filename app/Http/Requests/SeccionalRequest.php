@@ -4,13 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EstadosRequest extends FormRequest
+class SeccionalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
+        // Cambia esto a true para permitir la solicitud.
+        // Puedes agregar lógica de autorización aquí si es necesario.
         return true;
     }
 
@@ -26,6 +28,11 @@ class EstadosRequest extends FormRequest
         ];
     }
 
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [

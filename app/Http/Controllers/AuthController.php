@@ -15,64 +15,45 @@ class AuthController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:6',
-            'telefono' => 'nullable|string',
-            'correo' => 'nullable|string|email|max:255|unique:users',
-            'roles_id' => 'required|exists:roles,id',
-            'estados_id' => 'nullable',
+            'password' => 'required|string|min:2',
         ]);
-
+    
         $user = User::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
-            'username' => $request->username,
             'password' => Hash::make($request->password),
-            'telefono' => $request->telefono,
-            'correo' => $request->correo,
-            'roles_id' => $request->roles_id,
-            'estados_id' => 1,
+            'roles_id' => 4,
+            'seccional_id' => $request->seccional_id
         ]);
-
-
+    
         return response()->json($user, 201);
-    }
+    }    
 
     public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        $user = User::where('apellido', $request->apellido)->first();
 
         // Verifica si el usuario existe y si la contraseña es correcta
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'username' => ['El usuario es incorrecto.'],
+                'apellido' => ['El usuario es incorrecto.'],
             ]);
         }
 
-        // Verifica si el estado del usuario está desactivado (ajusta el valor según corresponda)
-        if ($user->estados_id == 2) { // Suponiendo que 2 es el ID para "desactivado"
-            return response()->json([
-                'error' => 'Usuario desactivado.',
-            ], Response::HTTP_FORBIDDEN);
-        }
-
         return response()->json([
-            'token' => $user->createToken($request->username)->plainTextToken,
+            'token' => $user->createToken($request->apellido)->plainTextToken,
             'user' => [
                 "id" => $user->id,
                 "nombre" => $user->nombre,
                 "apellido" => $user->apellido,
-                "correo" => $user->correo,
                 "rol" => $user->rol->nombre,
                 "roles_id" => (int) $user->roles_id,
-                "estado" => $user->estado->nombre,
-                "telefono" => $user->telefono,
-                "username" => $user->username
+                "seccional" => $user->seccional->nombre,
+                "seccional_id" => (int) $user->seccional_id
             ]
         ]);
     }
@@ -103,12 +84,10 @@ class AuthController extends Controller
                 "id" => $user->id,
                 "nombre" => $user->nombre,
                 "apellido" => $user->apellido,
-                "correo" => $user->correo,
                 "rol" => $user->rol->nombre,
                 "roles_id" => (int) $user->roles_id,
-                "estado" => $user->estado->nombre,
-                "telefono" => $user->telefono,
-                "username" => $user->username
+                "seccional" => $user->seccional->nombre,
+                "seccional_id" => (int) $user->seccional_id
             ]
         ], Response::HTTP_OK);
     }

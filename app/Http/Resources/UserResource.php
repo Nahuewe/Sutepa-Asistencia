@@ -19,13 +19,11 @@ class UserResource extends JsonResource
             'id' => $this->resource->id,
             'nombre' => $this->resource->nombre,
             'apellido'=>$this->resource->apellido,
-            'correo' => $this->resource->correo,
             'rol'=>$this->resource->rol->nombre,
             'roles_id'=>(int) $this->resource->roles_id,
-            'estado'=>$this->resource->estado->nombre,
-            'creada'=>$this->resource->created_at,
-            'telefono'=>$this->resource->telefono,
-            'user'=>$this->resource->username
+            'seccional'=>$this->resource->seccional->nombre,
+            'seccional_id'=>(int) $this->resource->seccional_id,
+            'creada'=>$this->resource->created_at
         ];
     }
 }

@@ -5,21 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-
-
-class Sexo extends Model
+class Seccional extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-
-    protected $table='sexo';
+    protected $table='seccional';
 
     protected $guarded = [];
 
-    public function sexo(): HasMany
+    public function datosLaborales(): HasMany
     {
-        return $this->hasMany(Persona::class, 'sexo_id');
+        return $this->hasMany(User::class, 'seccional_id');
     }
+    
 }
-

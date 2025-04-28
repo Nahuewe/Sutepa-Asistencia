@@ -21,22 +21,9 @@ class UsuarioSeeder extends Seeder
             [
                 'nombre' => 'Nahuel',
                 'apellido' => 'Soria Parodi',
-                'username' => 'nsoria',
-                'password' => Hash::make('123456'),
-                'correo' => 'nahuelsoriap@gmail.com',
-                'telefono' => "3834523702",
+                'password' => Hash::make('99999'),
                 'roles_id' => 1,
-                'estados_id' => 1,
-            ],
-            [
-                'nombre' => 'Monica',
-                'apellido' => 'Parodi',
-                'username' => 'mparodi',
-                'password' => Hash::make('123456'),
-                'correo' => 'monikparodi_70@hotmail.com',
-                'telefono' => "3834606959",
-                'roles_id' => 1,
-                'estados_id' => 1,
+                'seccional_id' => 22,
             ]
         ]);
     }

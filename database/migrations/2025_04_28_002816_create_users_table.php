@@ -15,14 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('username')->unique();
             $table->string('password');
-            $table->string('telefono')->nullable();
-            $table->string('correo')->nullable();
             $table->unsignedBigInteger('roles_id');
             $table->foreign('roles_id')->references('id')->on('roles');
-            $table->unsignedBigInteger('estados_id');
-            $table->foreign('estados_id')->references('id')->on('estados');
+            $table->unsignedBigInteger('seccional_id');
+            $table->foreign('seccional_id')->references('id')->on('seccional');
             $table->timestamps();
             $table->softDeletes();
         });

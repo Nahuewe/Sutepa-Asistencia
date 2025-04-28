@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomizeException;
-use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\UserRequest;
