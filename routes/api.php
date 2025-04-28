@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    AuthController, UserController
+    AuthController, UserController, RolesController, SeccionalController
 };
 
 // Rutas públicas
@@ -13,4 +13,6 @@ Route::post('/refresh-token', [AuthController::class, 'refreshToken'])->middlewa
 // Rutas protegidas por middleware auth:sanctum
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/user', UserController::class);
+    Route::apiResource('/roles',RolesController::class);
+    Route::apiResource('/seccionales',SeccionalController::class);
 });

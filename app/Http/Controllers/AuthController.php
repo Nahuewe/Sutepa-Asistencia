@@ -15,12 +15,15 @@ class AuthController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:2'
         ]);
     
         $user = User::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
+            'username' => $request->username,
+            'dni' => $request->dni,
             'password' => Hash::make($request->password),
             'roles_id' => 4,
             'seccional_id' => $request->seccional_id,
@@ -32,28 +35,31 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
+            'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $user = User::where('apellido', $request->apellido)->first();
+        $user = User::where('username', $request->username)->first();
 
         // Verifica si el usuario existe y si la contraseña es correcta
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'apellido' => ['El usuario es incorrecto.'],
+                'username' => ['El usuario es incorrecto.'],
             ]);
         }
 
         return response()->json([
-            'token' => $user->createToken($request->apellido)->plainTextToken,
+            'token' => $user->createToken($request->username)->plainTextToken,
             'user' => [
                 "id" => $user->id,
                 "nombre" => $user->nombre,
                 "apellido" => $user->apellido,
+                "dni" => $user->dni,
                 "rol" => $user->rol->nombre,
                 "roles_id" => (int) $user->roles_id,
                 "seccional" => $user->seccional->nombre,
                 "seccional_id" => (int) $user->seccional_id,
+                "username" => $user->username
             ]
         ]);
     }
@@ -84,10 +90,12 @@ class AuthController extends Controller
                 "id" => $user->id,
                 "nombre" => $user->nombre,
                 "apellido" => $user->apellido,
+                "dni" => $user->dni,
                 "rol" => $user->rol->nombre,
                 "roles_id" => (int) $user->roles_id,
                 "seccional" => $user->seccional->nombre,
-                "seccional_id" => (int) $user->seccional_id
+                "seccional_id" => (int) $user->seccional_id,
+                "username" => $user->username
             ]
         ], Response::HTTP_OK);
     }
