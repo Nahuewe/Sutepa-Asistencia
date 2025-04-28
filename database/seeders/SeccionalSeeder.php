@@ -22,7 +22,7 @@ class SeccionalSeeder extends Seeder
             ['nombre' => 'CORRIENTES'],
             ['nombre' => 'CHUBUT'],
             ['nombre' => 'DAMNPYP'],
-            ['nombre' => 'ENTRE RIOS'],
+            ['nombre' => 'CONCORDIA'],
             ['nombre' => 'LA PLATA'],
             ['nombre' => 'LA PAMPA'],
             ['nombre' => 'LUJAN'],
@@ -40,10 +40,11 @@ class SeccionalSeeder extends Seeder
             ['nombre' => 'NEUQUEN'],
             ['nombre' => 'CATAMARCA'],
             ['nombre' => 'CHACO'],
-            ['nombre' => 'TIERRA DEL FUEGO']
+            ['nombre' => 'TIERRA DEL FUEGO'],
+            ['nombre' => 'SAN MARTIN'],
+            ['nombre' => 'JUJUY'],
+            ['nombre' => 'FORMOSA'],
+            ['nombre' => 'MAR DEL PLATA'],
         ]);
     }
 }
-
-
-
