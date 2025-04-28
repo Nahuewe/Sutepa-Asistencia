@@ -15,7 +15,7 @@ class AuthController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'password' => 'required|string|min:2',
+            'password' => 'required|string|min:2'
         ]);
     
         $user = User::create([
@@ -23,7 +23,7 @@ class AuthController extends Controller
             'apellido' => $request->apellido,
             'password' => Hash::make($request->password),
             'roles_id' => 4,
-            'seccional_id' => $request->seccional_id
+            'seccional_id' => $request->seccional_id,
         ]);
     
         return response()->json($user, 201);
@@ -53,7 +53,7 @@ class AuthController extends Controller
                 "rol" => $user->rol->nombre,
                 "roles_id" => (int) $user->roles_id,
                 "seccional" => $user->seccional->nombre,
-                "seccional_id" => (int) $user->seccional_id
+                "seccional_id" => (int) $user->seccional_id,
             ]
         ]);
     }

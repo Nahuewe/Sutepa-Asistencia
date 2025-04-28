@@ -48,17 +48,4 @@ class UserController extends Controller
         $User=$this->UserService->verUser($id);
         return new UserResource($User);
     }
-
-    public function destroy(string $id)
-    {
-        try {
-            $User = $this->UserService->eliminarUser($id);
-
-            return response()->json([
-                "message" => "Estado actualizado",
-            ], 200);
-        } catch (\Exception $e) {
-            throw new CustomizeException('No se pudo eliminar la prioridad', Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
 }

@@ -23,7 +23,7 @@ class UsuarioSeeder extends Seeder
                 'apellido' => 'Soria Parodi',
                 'password' => Hash::make('99999'),
                 'roles_id' => 1,
-                'seccional_id' => 22,
+                'seccional_id' => 24,
             ]
         ]);
     }

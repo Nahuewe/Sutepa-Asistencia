@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Roles::class, 'roles_id');
     }
+
+    public function seccional()
+    {
+        return $this->belongsTo(Seccional::class, 'seccional_id');
+    }
 }

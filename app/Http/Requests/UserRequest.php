@@ -29,8 +29,8 @@ class UserRequest extends FormRequest
             'nombre' => 'sometimes|nullable|string|max:255',
             'apellido' => 'sometimes|nullable|string|max:255',
             'password' => ['sometimes','nullable','string','min:6', Rule::unique('users')->ignore($id)],
-            'seccional_id' => 'sometimes|nullable|max:255',
-            'roles_id' => 'sometimes|nullable|exists:roles,id'
+            'roles_id' => 'sometimes|nullable|exists:roles,id',
+            'seccional_id' => 'sometimes|nullable|exists:seccional,id'
         ];
     }
 }
