@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('dni');
-            $table->string('username')->unique();
+            $table->string('legajo')->unique();
             $table->string('password');
             $table->unsignedBigInteger('roles_id');
             $table->foreign('roles_id')->references('id')->on('roles');

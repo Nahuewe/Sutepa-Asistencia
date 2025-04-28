@@ -22,7 +22,7 @@ class UsuarioSeeder extends Seeder
                 'nombre' => 'Nahuel',
                 'apellido' => 'Soria Parodi',
                 'dni' => '43.532.773',
-                'username' => '99999',
+                'legajo' => '99999',
                 'password' => Hash::make('99999'),
                 'roles_id' => 1,
                 'seccional_id' => 24,

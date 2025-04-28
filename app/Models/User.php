@@ -19,7 +19,7 @@ class User extends Authenticatable
         'nombre',
         'apellido',
         'dni',
-        'username',
+        'legajo',
         'password',
         'roles_id',
         'seccional_id',

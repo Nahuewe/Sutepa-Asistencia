@@ -20,11 +20,11 @@ class UserResource extends JsonResource
             'nombre' => $this->resource->nombre,
             'apellido'=>$this->resource->apellido,
             'dni'=>$this->resource->dni,
+            'legajo'=>$this->resource->legajo,
             'rol'=>$this->resource->rol->nombre,
             'roles_id'=>(int) $this->resource->roles_id,
             'seccional'=>$this->resource->seccional->nombre,
             'seccional_id'=>(int) $this->resource->seccional_id,
-            'user'=>$this->resource->username,
             'creada'=>$this->resource->created_at
         ];
     }

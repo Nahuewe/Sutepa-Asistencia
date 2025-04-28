@@ -15,14 +15,14 @@ class AuthController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
+            'legajo' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:2'
         ]);
     
         $user = User::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
-            'username' => $request->username,
+            'legajo' => $request->legajo,
             'dni' => $request->dni,
             'password' => Hash::make($request->password),
             'roles_id' => 4,
@@ -35,21 +35,21 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required|string',
+            'legajo' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        $user = User::where('legajo', $request->legajo)->first();
 
         // Verifica si el usuario existe y si la contraseña es correcta
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'username' => ['El usuario es incorrecto.'],
+                'legajo' => ['El usuario es incorrecto.'],
             ]);
         }
 
         return response()->json([
-            'token' => $user->createToken($request->username)->plainTextToken,
+            'token' => $user->createToken($request->legajo)->plainTextToken,
             'user' => [
                 "id" => $user->id,
                 "nombre" => $user->nombre,
@@ -59,7 +59,7 @@ class AuthController extends Controller
                 "roles_id" => (int) $user->roles_id,
                 "seccional" => $user->seccional->nombre,
                 "seccional_id" => (int) $user->seccional_id,
-                "username" => $user->username
+                "legajo" => $user->legajo
             ]
         ]);
     }
@@ -95,7 +95,7 @@ class AuthController extends Controller
                 "roles_id" => (int) $user->roles_id,
                 "seccional" => $user->seccional->nombre,
                 "seccional_id" => (int) $user->seccional_id,
-                "username" => $user->username
+                "legajo" => $user->legajo
             ]
         ], Response::HTTP_OK);
     }

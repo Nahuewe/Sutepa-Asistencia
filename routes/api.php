@@ -12,6 +12,7 @@ Route::post('/refresh-token', [AuthController::class, 'refreshToken'])->middlewa
 
 // Rutas protegidas por middleware auth:sanctum
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('buscar-user', [UserController::class, 'buscarUser']);
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/roles',RolesController::class);
     Route::apiResource('/seccionales',SeccionalController::class);

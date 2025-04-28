@@ -19,6 +19,16 @@ class UserService
         return $User;
     }
 
+    public function buscarUser($query)
+    {
+        $usuarios = User::where('legajo', 'LIKE', "%$query%")
+            ->orWhere('nombre', 'LIKE', "%$query%")
+            ->orWhere('apellido', 'LIKE', "%$query%")
+            ->get();
+    
+        return $usuarios;
+    }    
+
     public function UserActualizar($id, $data)
     {
         $user = User::find($id);
@@ -30,7 +40,7 @@ class UserService
         $user->nombre = $data['nombre'] ?? $user->nombre;
         $user->apellido = $data['apellido'] ?? $user->apellido;
         $user->dni = $data['dni'] ?? $user->dni;
-        $user->username = $data['username'] ?? $user->username;
+        $user->legajo = $data['legajo'] ?? $user->legajo;
         if (isset($data['password'])) {
             $user->password = Hash::make($data['password']);
         }

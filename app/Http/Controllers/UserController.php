@@ -43,6 +43,18 @@ class UserController extends Controller
         }
     }
 
+    public function buscarUser(UserRequest $request)
+    {
+        try {
+            $query = $request->input('query');
+            $usuarios = $this->UserService->buscarUser($query);
+    
+            return UserResource::collection($usuarios);
+        } catch (\Exception $e) {
+            throw new CustomizeException('Seccional no encontrada', Response::HTTP_NOT_FOUND);
+        }
+    }
+
     public function show($id)
     {
         $User=$this->UserService->verUser($id);
