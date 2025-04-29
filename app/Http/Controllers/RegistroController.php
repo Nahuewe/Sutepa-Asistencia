@@ -9,6 +9,9 @@ use App\Models\Egreso;
 use App\Models\Ingreso;
 use Illuminate\Http\Request;
 use App\Services\RegistroService;
+use App\Exports\IngresosExport;
+use App\Exports\EgresosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RegistroController extends Controller
 {
@@ -44,11 +47,15 @@ class RegistroController extends Controller
         $validated = $request->validate([
             'legajo' => 'required|string',
         ]);
-
-        $this->RegistroService->registrarEgreso($validated);
-
-        return response()->json(['message' => 'Egreso registrado correctamente']);
+    
+        try {
+            $this->RegistroService->registrarEgreso($validated);
+            return response()->json(['message' => 'Egreso registrado correctamente']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
     }
+    
 
     public function getIngresos(Request $request)
     {
@@ -86,6 +93,16 @@ class RegistroController extends Controller
                 'to' => $egresos->lastItem(),
             ]
         ]);
+    }
+
+    public function exportarIngresos(Request $request)
+    {
+        return Excel::download(new IngresosExport, 'ingresos.xlsx');
+    }
+
+    public function exportarEgresos(Request $request)
+    {
+        return Excel::download(new EgresosExport, 'egresos.xlsx');
     }
 
     public function buscarRegistro(Request $request)

@@ -47,8 +47,12 @@ class RegistroService
     public function registrarEgreso(array $data)
     {
         return DB::transaction(function () use ($data) {
-            $asistente = Asistente::where('legajo', $data['legajo'])->firstOrFail();
-
+            $asistente = Asistente::where('legajo', $data['legajo'])->first();
+    
+            if (!$asistente) {
+                throw new \Exception("El afiliado con el legajo N° {$data['legajo']} aun no fue registrado al ingresar.");
+            }
+    
             return Egreso::create([
                 'asistente_id' => $asistente->id,
                 'registrado_en' => Carbon::now('America/Argentina/Buenos_Aires'),
@@ -61,7 +65,6 @@ class RegistroService
         $asistentes = Asistente::where('legajo', 'LIKE', "%$query%")
             ->orWhere('nombre', 'LIKE', "%$query%")
             ->orWhere('apellido', 'LIKE', "%$query%")
-            ->orWhere('dni', 'LIKE', "%$query%")
             ->pluck('id');
         
         $ingresos = Ingreso::whereIn('asistente_id', $asistentes)

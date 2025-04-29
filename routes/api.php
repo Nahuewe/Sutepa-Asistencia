@@ -16,7 +16,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Ingreso y egreso
     Route::get('/ingreso', [RegistroController::class, 'getIngresos']);
     Route::get('/egreso', [RegistroController::class, 'getEgresos']);
-    Route::get('buscar-registro', [RegistroController::class, 'buscarRegistro']);
+    Route::get('/ingreso/exportar', [RegistroController::class, 'exportarIngresos']);
+    Route::get('/egreso/exportar', [RegistroController::class, 'exportarEgresos']);
+    Route::get('buscar-registro', [RegistroController::class, 'buscarRegistro']); 
 
     // Escaneo de QR
     Route::post('/registrar-ingreso', [RegistroController::class, 'registrarIngreso']);

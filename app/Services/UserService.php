@@ -9,7 +9,7 @@ class UserService
 {
     public function UserLista()
     {
-        $User=User::orderBy('id', 'asc')->paginate(10);
+        $User=User::orderBy('apellido', 'asc')->paginate(10);
         return $User;
     }
 

@@ -19,8 +19,8 @@ class UsuarioSeeder extends Seeder
 
         DB::table('users')->insert([
             [
-                'nombre' => 'Nahuel',
-                'apellido' => 'Soria Parodi',
+                'nombre' => 'NAHUEL',
+                'apellido' => 'SORIA PARODI',
                 'dni' => '43.532.773',
                 'legajo' => '99999',
                 'password' => Hash::make('99999'),
