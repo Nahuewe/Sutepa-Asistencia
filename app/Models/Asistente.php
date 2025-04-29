@@ -8,6 +8,11 @@ class Asistente extends Model
 {
     protected $fillable = ['nombre', 'apellido', 'dni', 'legajo', 'seccional'];
 
+    public function seccional()
+    {
+        return $this->belongsTo(Seccional::class, 'seccional_id');
+    }
+    
     public function ingresos()
     {
         return $this->hasMany(Ingreso::class);

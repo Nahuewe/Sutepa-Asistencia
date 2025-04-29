@@ -27,12 +27,17 @@ class RegistroController extends Controller
             'dni' => 'required|string',
             'legajo' => 'required|string',
             'seccional' => 'nullable|string',
+            'seccional_id' => 'nullable|numeric',
         ]);
-
+    
+        if (isset($validated['seccional_id'])) {
+            $validated['seccional_id'] = (int) $validated['seccional_id'];
+        }
+    
         $this->RegistroService->registrarIngreso($validated);
-
+    
         return response()->json(['message' => 'Ingreso registrado correctamente']);
-    }
+    }    
 
     public function registrarEgreso(Request $request)
     {
@@ -87,11 +92,22 @@ class RegistroController extends Controller
     {
         try {
             $query = $request->input('query');
-            $registros = $this->RegistroService->buscarRegistro($query);
-    
-            return RegistroResource::collection($registros);
+            $page = $request->query('page', 1);
+            $ingresos = $this->RegistroService->buscarRegistro($query, $page);
+   
+            return response()->json([
+                'data' => RegistroResource::collection($ingresos->items()),
+                'meta' => [
+                    'total' => $ingresos->total(),
+                    'current_page' => $ingresos->currentPage(),
+                    'last_page' => $ingresos->lastPage(),
+                    'per_page' => $ingresos->perPage(),
+                    'from' => $ingresos->firstItem(),
+                    'to' => $ingresos->lastItem(),
+                ]
+            ]);
         } catch (\Exception $e) {
-            throw new CustomizeException('Seccional no encontrada', Response::HTTP_NOT_FOUND);
+            throw new CustomizeException('Error al buscar registros: ' . $e->getMessage(), Response::HTTP_NOT_FOUND);
         }
     }
 }

@@ -16,7 +16,7 @@ class Seccional extends Model
 
     protected $guarded = [];
 
-    public function datosLaborales(): HasMany
+    public function usuario(): HasMany
     {
         return $this->hasMany(User::class, 'seccional_id');
     }

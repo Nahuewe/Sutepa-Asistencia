@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('dni')->unique();
             $table->string('legajo')->unique();
             $table->string('seccional');
+            $table->string('seccional_id')->nullable();
             $table->timestamps();
         });
     }

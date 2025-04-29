@@ -19,8 +19,8 @@ class RegistroResource extends JsonResource
                 'nombre' => $this->asistente->nombre,
                 'apellido' => $this->asistente->apellido,
                 'dni' => $this->asistente->dni,
-                'seccional' => $this->asistente->seccional,
-                'seccional_id' => $this->asistente->seccional_id,
+                'legajo' => $this->asistente->legajo ?? null,
+                'seccional' => $this->asistente->seccional
             ],
         ];
     }

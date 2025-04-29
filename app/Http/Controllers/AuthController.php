@@ -43,7 +43,6 @@ class AuthController extends Controller
 
         $user = User::where('legajo', $request->legajo)->first();
 
-        // Verifica si el usuario existe y si la contraseña es correcta
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'legajo' => ['El usuario es incorrecto.'],
