@@ -13,7 +13,12 @@ Route::post('/refresh-token', [AuthController::class, 'refreshToken'])->middlewa
 // Rutas protegidas
 Route::middleware('auth:sanctum')->group(function () {
 
-    // Escaneo de QR (Ingreso y Egreso sin autenticación)
+    // Ingreso y egreso
+    Route::get('/ingreso', [RegistroController::class, 'getIngresos']);
+    Route::get('/egreso', [RegistroController::class, 'getEgresos']);
+    Route::get('buscar-registro', [RegistroController::class, 'buscarRegistro']);
+
+    // Escaneo de QR
     Route::post('/registrar-ingreso', [RegistroController::class, 'registrarIngreso']);
     Route::post('/registrar-egreso', [RegistroController::class, 'registrarEgreso']);
 

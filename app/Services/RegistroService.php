@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Asistente;
 use App\Models\Ingreso;
 use App\Models\Egreso;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class RegistroService
@@ -24,7 +25,7 @@ class RegistroService
 
             return Ingreso::create([
                 'asistente_id' => $asistente->id,
-                'registrado_en' => now(),
+                'registrado_en' => Carbon::now('America/Argentina/Buenos_Aires'),
             ]);
         });
     }
@@ -36,8 +37,18 @@ class RegistroService
 
             return Egreso::create([
                 'asistente_id' => $asistente->id,
-                'registrado_en' => now(),
+                'registrado_en' => Carbon::now('America/Argentina/Buenos_Aires'),
             ]);
         });
     }
+
+    public function buscarRegistro($query)
+    {
+        $usuarios = Asistente::where('legajo', 'LIKE', "%$query%")
+            ->orWhere('nombre', 'LIKE', "%$query%")
+            ->orWhere('apellido', 'LIKE', "%$query%")
+            ->get();
+    
+        return $usuarios;
+    }    
 }

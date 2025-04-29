@@ -17,6 +17,8 @@ class AuthController extends Controller
             'apellido' => 'required|string|max:255',
             'legajo' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:2'
+        ], [
+            'legajo.unique' => 'El legajo ya está registrado.',
         ]);
     
         $user = User::create([
