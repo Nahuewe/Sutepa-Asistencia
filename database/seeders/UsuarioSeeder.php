@@ -26,6 +26,15 @@ class UsuarioSeeder extends Seeder
                 'password' => Hash::make('99999'),
                 'roles_id' => 1,
                 'seccional_id' => 24,
+            ],
+            [
+                'nombre' => 'GONZALO RAMIRO',
+                'apellido' => 'TURATI',
+                'dni' => '43.244.978',
+                'legajo' => '11111',
+                'password' => Hash::make('11111'),
+                'roles_id' => 4,
+                'seccional_id' => 3,
             ]
         ]);
     }

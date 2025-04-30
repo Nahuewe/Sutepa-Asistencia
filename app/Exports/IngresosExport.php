@@ -18,9 +18,20 @@ class IngresosExport implements FromCollection, WithHeadings
                 'asistentes.dni',
                 'asistentes.legajo',
                 'asistentes.seccional',
-                'ingresos.registrado_en as fecha_ingreso',
+                'ingresos.registrado_en',
             ])
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                $item->dni = str_replace('.', '', $item->dni);
+
+                $fechaHora = \Carbon\Carbon::parse($item->registrado_en);
+                $item->fecha = $fechaHora->format('d-m-Y');
+                $item->hora = $fechaHora->format('H:i');
+
+                unset($item->registrado_en);
+
+                return $item;
+            });
     }
 
     public function headings(): array
@@ -31,7 +42,8 @@ class IngresosExport implements FromCollection, WithHeadings
             'DNI',
             'Legajo',
             'Seccional',
-            'Fecha y hora de Ingreso',
+            'Fecha de Ingreso',
+            'Hora de Ingreso',
         ];
     }
 }

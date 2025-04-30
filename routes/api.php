@@ -2,7 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    AuthController, UserController, RolesController, SeccionalController, RegistroController
+    AuthController,
+    UserController,
+    RolesController,
+    SeccionalController,
+    RegistroController,
+    VotacionController,
+    VotoController
 };
 
 // Rutas públicas
@@ -13,12 +19,17 @@ Route::post('/refresh-token', [AuthController::class, 'refreshToken'])->middlewa
 // Rutas protegidas
 Route::middleware('auth:sanctum')->group(function () {
 
+    // Votos
+    Route::get('/votaciones/exportar', [VotacionController::class, 'export']);
+    Route::apiResource('/votaciones', VotacionController::class);
+    Route::apiResource('/votos', VotoController::class);
+
     // Ingreso y egreso
     Route::get('/ingreso', [RegistroController::class, 'getIngresos']);
     Route::get('/egreso', [RegistroController::class, 'getEgresos']);
     Route::get('/ingreso/exportar', [RegistroController::class, 'exportarIngresos']);
     Route::get('/egreso/exportar', [RegistroController::class, 'exportarEgresos']);
-    Route::get('buscar-registro', [RegistroController::class, 'buscarRegistro']); 
+    Route::get('buscar-registro', [RegistroController::class, 'buscarRegistro']);
 
     // Escaneo de QR
     Route::post('/registrar-ingreso', [RegistroController::class, 'registrarIngreso']);
