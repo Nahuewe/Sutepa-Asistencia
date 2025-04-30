@@ -12,8 +12,7 @@ class VotoService
 {
     public function votoLista()
     {
-        $Voto=Voto::all();
-        return $Voto;
+        return Voto::all();
     }
 
     public function registrarVoto(array $data): Voto
@@ -58,6 +57,6 @@ class VotoService
             'abstencion' => $votacion->votos()->where('respuesta', 'abstencion')->count(),
         ];
 
-        broadcast(new VotoRegistradoEvent($votacion->id, $conteo))->toOthers();
+        broadcast(new VotoRegistradoEvent($votacion, $conteo))->toOthers();
     }
 }

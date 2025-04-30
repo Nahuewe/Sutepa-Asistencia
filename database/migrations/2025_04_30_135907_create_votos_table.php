@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('votacion_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('asistente_id');
-            $table->foreign('asistente_id')->references('id')->on('asistentes')->onDelete('cascade');
+            $table->foreign('asistente_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('respuesta', ['afirmativo', 'negativo', 'abstencion']);
             $table->timestamps();
         });        
