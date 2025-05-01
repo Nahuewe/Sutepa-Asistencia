@@ -23,6 +23,6 @@ class Voto extends Model
 
     public function asistente(): BelongsTo
     {
-        return $this->belongsTo(Asistente::class);
+        return $this->belongsTo(User::class);
     }
 }

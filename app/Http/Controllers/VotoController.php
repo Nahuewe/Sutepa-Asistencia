@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VotosExport;
 use App\Http\Resources\VotoResource;
+use App\Models\Voto;
 use Illuminate\Http\Request;
 use App\Services\VotoService;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VotoController extends Controller
 {
@@ -21,9 +24,39 @@ class VotoController extends Controller
         $this->VotoService = $VotoService;
     }
 
+    public function show($id)
+    {
+        $Voto = $this->VotoService->verVoto($id);
+    
+        if (!$Voto) {
+            return response()->json(['message' => 'Votación no encontrada'], 404);
+        }
+    
+        return new VotoResource($Voto);
+    }  
+
     public function store(Request $request)
     {
         $Voto = $this->VotoService->registrarVoto($request->all());
         return response()->json($Voto);
+    }
+
+    public function verificarVoto(Request $request)
+{
+    $request->validate([
+        'votacion_id' => 'required|exists:votacions,id',
+        'asistente_id' => 'required|exists:users,id',
+    ]);
+
+    $yaVoto = Voto::where('votacion_id', $request->votacion_id)
+                  ->where('asistente_id', $request->asistente_id)
+                  ->exists();
+
+    return response()->json(['ya_voto' => $yaVoto]);
+}
+
+    public function exportarVotos(Request $request)
+    {
+        return Excel::download(new VotosExport, 'votos.xlsx');
     }
 }

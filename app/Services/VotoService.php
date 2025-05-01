@@ -15,6 +15,12 @@ class VotoService
         return Voto::all();
     }
 
+    public function verVoto($id)
+    {
+        $voto = Voto::where('id', $id)->first();
+        return $voto;
+    }
+
     public function registrarVoto(array $data): Voto
     {
         $validated = $this->validarDatos($data);

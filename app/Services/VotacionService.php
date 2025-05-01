@@ -16,6 +16,12 @@ class VotacionService
         return $Votacion;
     }
 
+    public function verVotacion($id)
+    {
+        $votacion = Votacion::where('id', $id)->first();
+        return $votacion;
+    }
+
     public function crearVotacion(array $data): Votacion
     {
         $validated = $this->validarDatos($data);

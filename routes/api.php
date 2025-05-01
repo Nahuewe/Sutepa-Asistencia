@@ -20,9 +20,16 @@ Route::post('/refresh-token', [AuthController::class, 'refreshToken'])->middlewa
 Route::middleware('auth:sanctum')->group(function () {
 
     // Votos
-    Route::get('/votaciones/exportar', [VotacionController::class, 'export']);
+    Route::get('/votaciones/exportar', [VotacionController::class, 'exportarVotaciones']);
+    Route::get('/votos/exportar', [VotoController::class, 'exportarVotos']);
     Route::apiResource('/votaciones', VotacionController::class);
     Route::apiResource('/votos', VotoController::class);
+    Route::get('/votaciones/{id}/conteo', [VotacionController::class, 'obtenerConteo']);
+    Route::post('/votos/verificar', [VotoController::class, 'verificarVoto']);
+
+    // Escaneo de QR
+    Route::post('/registrar-ingreso', [RegistroController::class, 'registrarIngreso']);
+    Route::post('/registrar-egreso', [RegistroController::class, 'registrarEgreso']);
 
     // Ingreso y egreso
     Route::get('/ingreso', [RegistroController::class, 'getIngresos']);
@@ -31,13 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/egreso/exportar', [RegistroController::class, 'exportarEgresos']);
     Route::get('buscar-registro', [RegistroController::class, 'buscarRegistro']);
 
-    // Escaneo de QR
-    Route::post('/registrar-ingreso', [RegistroController::class, 'registrarIngreso']);
-    Route::post('/registrar-egreso', [RegistroController::class, 'registrarEgreso']);
-
     // Usuarios
     Route::get('buscar-user', [UserController::class, 'buscarUser']);
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/roles', RolesController::class);
     Route::apiResource('/seccionales', SeccionalController::class);
+
 });

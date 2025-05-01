@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VotacionesExport;
+use App\Exports\VotosExport;
 use App\Http\Resources\VotacionResource;
+use App\Models\Votacion;
 use Illuminate\Http\Request;
 use App\Services\VotacionService;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VotacionController extends Controller
 {
@@ -16,6 +20,17 @@ class VotacionController extends Controller
         return VotacionResource::collection($Votacion);
     }
 
+    public function show($id)
+    {
+        $votacion = $this->votacionService->verVotacion($id);
+    
+        if (!$votacion) {
+            return response()->json(['message' => 'Votación no encontrada'], 404);
+        }
+    
+        return new VotacionResource($votacion);
+    }    
+
     public function __construct(VotacionService $votacionService)
     {
         $this->votacionService = $votacionService;
@@ -25,5 +40,23 @@ class VotacionController extends Controller
     {
         $votacion = $this->votacionService->crearVotacion($request->all());
         return response()->json($votacion);
+    }
+
+    public function obtenerConteo($id)
+    {
+        $votacion = Votacion::findOrFail($id);
+
+        $conteo = [
+            'afirmativo' => $votacion->votos()->where('respuesta', 'afirmativo')->count(),
+            'negativo' => $votacion->votos()->where('respuesta', 'negativo')->count(),
+            'abstencion' => $votacion->votos()->where('respuesta', 'abstencion')->count(),
+        ];
+
+        return response()->json($conteo);
+    }
+
+    public function exportarVotaciones(Request $request)
+    {
+        return Excel::download(new VotacionesExport, 'votaciones.xlsx');
     }
 }

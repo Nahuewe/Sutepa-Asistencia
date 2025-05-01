@@ -6,6 +6,7 @@ use App\Models\Votacion;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Carbon\Carbon;
 
 class VotacionesExport implements FromCollection, WithHeadings
 {
@@ -18,16 +19,19 @@ class VotacionesExport implements FromCollection, WithHeadings
         ])
         ->get()
         ->map(function ($votacion) {
+            $fechaHoraArg = Carbon::parse($votacion->created_at)
+                                ->setTimezone('America/Argentina/Buenos_Aires');
+
             return [
-                'tipo' => $votacion->tipo,
-                'identificador' => $votacion->identificador,
-                'contenido' => $votacion->contenido,
-                'afirmativos' => $votacion->afirmativos,
-                'negativos' => $votacion->negativos,
-                'abstenciones' => $votacion->abstenciones,
-                'total_votos' => $votacion->afirmativos + $votacion->negativos + $votacion->abstenciones,
-                'fecha' => $votacion->created_at->format('d-m-Y'),
-                'hora' => $votacion->created_at->format('H:i'),
+                'tipo' => $votacion->tipo ?? '-',
+                'identificador' => $votacion->identificador ?? '-',
+                'contenido' => $votacion->contenido ?? '-',
+                'afirmativos' => $votacion->afirmativos ?? '-',
+                'negativos' => $votacion->negativos ?? '-',
+                'abstenciones' => $votacion->abstenciones ?? '-',
+                'total_votos' => $votacion->afirmativos + $votacion->negativos + $votacion->abstenciones ?? '-',
+                'fecha'         => $fechaHoraArg->format('d-m-Y'),
+                'hora'          => $fechaHoraArg->format('H:i'),
             ];
         });
     }
