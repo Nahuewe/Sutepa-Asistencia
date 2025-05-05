@@ -55,6 +55,24 @@ class VotoController extends Controller
     return response()->json(['ya_voto' => $yaVoto]);
 }
 
+public function votosPorVotacion($votacion_id)
+{
+    $votos = Voto::with('asistente')
+        ->where('votacion_id', $votacion_id)
+        ->get()
+        ->map(function ($voto) {
+            return [
+                'asistente_id' => $voto->asistente_id,
+                'nombre' => $voto->asistente->nombre ?? 'Desconocido',
+                'apellido' => $voto->asistente->apellido ?? 'Desconocido',
+                'respuesta' => $voto->respuesta,
+                'ya_voto' => true,
+            ];
+        });
+
+    return response()->json($votos);
+}
+
     public function exportarVotos(Request $request)
     {
         return Excel::download(new VotosExport, 'votos.xlsx');

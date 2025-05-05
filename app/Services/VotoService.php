@@ -27,12 +27,6 @@ class VotoService
 
         $votacion = Votacion::findOrFail($validated['votacion_id']);
 
-        if (now()->greaterThan($votacion->activa_hasta)) {
-            throw ValidationException::withMessages([
-                'votacion' => 'La votación ha finalizado.',
-            ]);
-        }
-
         $voto = Voto::create($validated);
 
         $this->emitirConteoActualizado($votacion);

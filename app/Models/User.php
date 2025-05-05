@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Seccional::class, 'seccional_id');
     }
+
+    public function votos()
+    {
+        return $this->hasMany(Voto::class, 'asistente_id');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\VotacionesExport;
 use App\Exports\VotosExport;
 use App\Http\Resources\VotacionResource;
+use App\Models\User;
 use App\Models\Votacion;
 use Illuminate\Http\Request;
 use App\Services\VotacionService;
@@ -54,6 +55,20 @@ class VotacionController extends Controller
 
         return response()->json($conteo);
     }
+
+    public function usuariosNoVotaron(Votacion $votacion)
+{
+    // Traemos todos los usuarios que tienen cuenta
+    // y no existen en votos para esta votación.
+    $usuarios = User::whereDoesntHave('votos', function($q) use ($votacion) {
+        $q->where('votacion_id', $votacion->id);
+    })
+    ->select(['id as asistente_id', 'nombre', 'apellido'])
+    ->get();
+
+    return response()->json($usuarios);
+}
+
 
     public function exportarVotaciones(Request $request)
     {

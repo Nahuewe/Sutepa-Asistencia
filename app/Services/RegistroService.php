@@ -32,7 +32,7 @@ class RegistroService
                     'apellido' => $data['apellido'],
                     'dni' => $data['dni'],
                     'password' => Hash::make($data['legajo']),
-                    'roles_id' => 4,
+                    'roles_id' => 5,
                     'seccional_id' => $data['seccional_id'] ?? null,
                 ]
             );

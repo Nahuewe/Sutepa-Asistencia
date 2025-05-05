@@ -27,7 +27,7 @@ class AuthController extends Controller
             'legajo' => $request->legajo,
             'dni' => $request->dni,
             'password' => Hash::make($request->password),
-            'roles_id' => $request->roles_id ?? 4,
+            'roles_id' => $request->roles_id ?? 5,
             'seccional_id' => $request->seccional_id,
         ]);        
     

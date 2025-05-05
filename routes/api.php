@@ -19,12 +19,16 @@ Route::post('/refresh-token', [AuthController::class, 'refreshToken'])->middlewa
 // Rutas protegidas
 Route::middleware('auth:sanctum')->group(function () {
 
-    // Votos
+    // Votaciones
     Route::get('/votaciones/exportar', [VotacionController::class, 'exportarVotaciones']);
-    Route::get('/votos/exportar', [VotoController::class, 'exportarVotos']);
     Route::apiResource('/votaciones', VotacionController::class);
-    Route::apiResource('/votos', VotoController::class);
     Route::get('/votaciones/{id}/conteo', [VotacionController::class, 'obtenerConteo']);
+    Route::get('/votaciones/{id}/respuestas', [VotoController::class, 'votosPorVotacion']);
+    Route::get('/votaciones/{votacion}/no-votaron', [VotacionController::class, 'usuariosNoVotaron']);
+
+    // Votos
+    Route::get('/votos/exportar', [VotoController::class, 'exportarVotos']);
+    Route::apiResource('/votos', VotoController::class);
     Route::post('/votos/verificar', [VotoController::class, 'verificarVoto']);
 
     // Escaneo de QR

@@ -33,7 +33,7 @@ class UsuarioSeeder extends Seeder
                 'dni' => '43.244.978',
                 'legajo' => '11111',
                 'password' => Hash::make('11111'),
-                'roles_id' => 4,
+                'roles_id' => 5,
                 'seccional_id' => 3,
             ]
         ]);
