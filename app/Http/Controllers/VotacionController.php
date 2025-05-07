@@ -58,8 +58,6 @@ class VotacionController extends Controller
 
     public function usuariosNoVotaron(Votacion $votacion)
 {
-    // Traemos todos los usuarios que tienen cuenta
-    // y no existen en votos para esta votación.
     $usuarios = User::whereDoesntHave('votos', function($q) use ($votacion) {
         $q->where('votacion_id', $votacion->id);
     })

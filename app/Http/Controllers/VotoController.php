@@ -67,6 +67,7 @@ public function votosPorVotacion($votacion_id)
                 'apellido' => $voto->asistente->apellido ?? 'Desconocido',
                 'respuesta' => $voto->respuesta,
                 'ya_voto' => true,
+                'created_at' => $voto->created_at,
             ];
         });
 
