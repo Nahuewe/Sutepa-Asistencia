@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController,
+    OrdenDiariaController,
     UserController,
     RolesController,
     SeccionalController,
@@ -47,5 +48,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/roles', RolesController::class);
     Route::apiResource('/seccionales', SeccionalController::class);
+    Route::apiResource('/ordenes-diarias', OrdenDiariaController::class);
 
 });
