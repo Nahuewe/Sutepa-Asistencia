@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exports\VotacionesExport;
-use App\Exports\VotosExport;
 use App\Http\Resources\VotacionResource;
 use App\Models\User;
 use App\Models\Votacion;
@@ -68,7 +67,7 @@ class VotacionController extends Controller
 }
 
 
-    public function exportarVotaciones(Request $request)
+    public function exportarVotaciones()
     {
         return Excel::download(new VotacionesExport, 'votaciones.xlsx');
     }

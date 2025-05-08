@@ -74,7 +74,7 @@ public function votosPorVotacion($votacion_id)
     return response()->json($votos);
 }
 
-    public function exportarVotos(Request $request)
+    public function exportarVotos()
     {
         return Excel::download(new VotosExport, 'votos.xlsx');
     }

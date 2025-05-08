@@ -14,13 +14,13 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
-    'timezone' => 'UTC-3',
+    'timezone' => 'UTC',
 
-    'locale' => 'es',
+    'locale' => 'en',
 
-    'fallback_locale' => 'es',
+    'fallback_locale' => 'en',
 
-    'faker_locale' => 'es_AR',
+    'faker_locale' => 'en_US',
 
     'key' => env('APP_KEY'),
 
