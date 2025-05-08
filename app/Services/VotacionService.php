@@ -28,7 +28,7 @@ class VotacionService
 
         $votacion = Votacion::create([
             ...$validated,
-            'activa_hasta' => Carbon::now()->addSeconds(23),
+            'activa_hasta' => Carbon::now()->addSeconds(20),
         ]);
 
         broadcast(new NuevaVotacionEvent($votacion))->toOthers();
