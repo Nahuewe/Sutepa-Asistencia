@@ -6,7 +6,7 @@ use App\Events\NuevaVotacionEvent;
 use App\Models\Votacion;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 class VotacionService
 {
