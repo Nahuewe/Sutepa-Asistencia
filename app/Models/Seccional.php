@@ -12,7 +12,7 @@ class Seccional extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $table='seccional';
+    protected $table = 'seccional';
 
     protected $guarded = [];
 
@@ -20,5 +20,5 @@ class Seccional extends Model
     {
         return $this->hasMany(User::class, 'seccional_id');
     }
-    
+
 }

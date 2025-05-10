@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,31 +13,31 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre'   => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'legajo' => 'required|string|max:255|unique:users',
+            'legajo'   => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:2'
         ], [
             'legajo.unique' => 'El legajo ya está registrado.',
         ]);
-    
+
         $user = User::create([
-            'nombre' => $request->nombre,
-            'apellido' => $request->apellido,
-            'legajo' => $request->legajo,
-            'dni' => $request->dni,
-            'password' => Hash::make($request->password),
-            'roles_id' => $request->roles_id ?? 5,
+            'nombre'       => $request->nombre,
+            'apellido'     => $request->apellido,
+            'legajo'       => $request->legajo,
+            'dni'          => $request->dni,
+            'password'     => Hash::make($request->password),
+            'roles_id'     => $request->roles_id ?? 5,
             'seccional_id' => $request->seccional_id,
-        ]);        
-    
+        ]);
+
         return response()->json($user, 201);
-    }    
+    }
 
     public function login(Request $request)
     {
         $request->validate([
-            'legajo' => 'required|string',
+            'legajo'   => 'required|string',
             'password' => 'required|string',
         ]);
 
@@ -51,16 +51,16 @@ class AuthController extends Controller
 
         return response()->json([
             'token' => $user->createToken($request->legajo)->plainTextToken,
-            'user' => [
-                "id" => $user->id,
-                "nombre" => $user->nombre,
-                "apellido" => $user->apellido,
-                "dni" => $user->dni,
-                "rol" => $user->rol->nombre,
-                "roles_id" => (int) $user->roles_id,
-                "seccional" => $user->seccional->nombre,
+            'user'  => [
+                "id"           => $user->id,
+                "nombre"       => $user->nombre,
+                "apellido"     => $user->apellido,
+                "dni"          => $user->dni,
+                "rol"          => $user->rol->nombre,
+                "roles_id"     => (int) $user->roles_id,
+                "seccional"    => $user->seccional->nombre,
                 "seccional_id" => (int) $user->seccional_id,
-                "legajo" => $user->legajo
+                "legajo"       => $user->legajo
             ]
         ]);
     }
@@ -87,16 +87,16 @@ class AuthController extends Controller
 
         return response()->json([
             'token' => $newToken,
-            'user' => [
-                "id" => $user->id,
-                "nombre" => $user->nombre,
-                "apellido" => $user->apellido,
-                "dni" => $user->dni,
-                "rol" => $user->rol->nombre,
-                "roles_id" => (int) $user->roles_id,
-                "seccional" => $user->seccional->nombre,
+            'user'  => [
+                "id"           => $user->id,
+                "nombre"       => $user->nombre,
+                "apellido"     => $user->apellido,
+                "dni"          => $user->dni,
+                "rol"          => $user->rol->nombre,
+                "roles_id"     => (int) $user->roles_id,
+                "seccional"    => $user->seccional->nombre,
                 "seccional_id" => (int) $user->seccional_id,
-                "legajo" => $user->legajo
+                "legajo"       => $user->legajo
             ]
         ], Response::HTTP_OK);
     }

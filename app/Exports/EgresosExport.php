@@ -24,9 +24,9 @@ class EgresosExport implements FromCollection, WithHeadings
             ->map(function ($item) {
                 $item->dni = str_replace('.', '', $item->dni);
 
-                $fechaHora = \Carbon\Carbon::parse($item->registrado_en);
+                $fechaHora   = \Carbon\Carbon::parse($item->registrado_en);
                 $item->fecha = $fechaHora->format('d-m-Y');
-                $item->hora = $fechaHora->format('H:i');
+                $item->hora  = $fechaHora->format('H:i');
 
                 unset($item->registrado_en);
 

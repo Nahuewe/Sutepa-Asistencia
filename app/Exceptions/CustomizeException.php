@@ -23,4 +23,3 @@ class CustomizeException extends Exception
         ], $this->code);
     }
 }
-

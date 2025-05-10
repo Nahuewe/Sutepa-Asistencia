@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-
 class UserRequest extends FormRequest
 {
     public function authorize(): bool
@@ -18,12 +17,12 @@ class UserRequest extends FormRequest
         $id = $this->route('user');
 
         return [
-            'nombre' => 'sometimes|nullable|string|max:255',
-            'apellido' => 'sometimes|nullable|string|max:255',
-            'dni' => 'sometimes|nullable|string|max:255',
-            'legajo' => ['sometimes','nullable','string','max:255', Rule::unique('users')->ignore($id)],
-            'password' => ['sometimes','nullable','string','min:2', Rule::unique('users')->ignore($id)],
-            'roles_id' => 'sometimes|nullable|exists:roles,id',
+            'nombre'       => 'sometimes|nullable|string|max:255',
+            'apellido'     => 'sometimes|nullable|string|max:255',
+            'dni'          => 'sometimes|nullable|string|max:255',
+            'legajo'       => ['sometimes','nullable','string','max:255', Rule::unique('users')->ignore($id)],
+            'password'     => ['sometimes','nullable','string','min:2', Rule::unique('users')->ignore($id)],
+            'roles_id'     => 'sometimes|nullable|exists:roles,id',
             'seccional_id' => 'sometimes|nullable|exists:seccional,id'
         ];
     }

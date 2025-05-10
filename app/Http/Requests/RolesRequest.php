@@ -22,8 +22,8 @@ class RolesRequest extends FormRequest
     {
         return [
             'nombre.required' => 'El campo nombre del rol es obligatorio.',
-            'nombre.string' => 'El campo nombre del rol debe ser una cadena de texto.',
-            'nombre.max' => 'El campo nombre del rol no puede tener más de 255 caracteres.',
+            'nombre.string'   => 'El campo nombre del rol debe ser una cadena de texto.',
+            'nombre.max'      => 'El campo nombre del rol no puede tener más de 255 caracteres.',
         ];
     }
 }

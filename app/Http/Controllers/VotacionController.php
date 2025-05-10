@@ -6,8 +6,8 @@ use App\Exports\VotacionesExport;
 use App\Http\Resources\VotacionResource;
 use App\Models\User;
 use App\Models\Votacion;
-use Illuminate\Http\Request;
 use App\Services\VotacionService;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class VotacionController extends Controller
@@ -16,20 +16,21 @@ class VotacionController extends Controller
 
     public function index()
     {
-        $Votacion=$this->votacionService->VotacionLista();
+        $Votacion = $this->votacionService->VotacionLista();
+
         return VotacionResource::collection($Votacion);
     }
 
     public function show($id)
     {
         $votacion = $this->votacionService->verVotacion($id);
-    
+
         if (!$votacion) {
             return response()->json(['message' => 'Votación no encontrada'], 404);
         }
-    
+
         return new VotacionResource($votacion);
-    }    
+    }
 
     public function __construct(VotacionService $votacionService)
     {
@@ -39,6 +40,7 @@ class VotacionController extends Controller
     public function store(Request $request)
     {
         $votacion = $this->votacionService->crearVotacion($request->all());
+
         return response()->json($votacion);
     }
 
@@ -48,7 +50,7 @@ class VotacionController extends Controller
 
         $conteo = [
             'afirmativo' => $votacion->votos()->where('respuesta', 'afirmativo')->count(),
-            'negativo' => $votacion->votos()->where('respuesta', 'negativo')->count(),
+            'negativo'   => $votacion->votos()->where('respuesta', 'negativo')->count(),
             'abstencion' => $votacion->votos()->where('respuesta', 'abstencion')->count(),
         ];
 
@@ -56,19 +58,18 @@ class VotacionController extends Controller
     }
 
     public function usuariosNoVotaron(Votacion $votacion)
-{
-    $usuarios = User::whereDoesntHave('votos', function($q) use ($votacion) {
-        $q->where('votacion_id', $votacion->id);
-    })
-    ->select(['id as asistente_id', 'nombre', 'apellido'])
-    ->get();
+    {
+        $usuarios = User::whereDoesntHave('votos', function ($q) use ($votacion) {
+            $q->where('votacion_id', $votacion->id);
+        })
+        ->select(['id as asistente_id', 'nombre', 'apellido'])
+        ->get();
 
-    return response()->json($usuarios);
-}
-
+        return response()->json($usuarios);
+    }
 
     public function exportarVotaciones()
     {
-        return Excel::download(new VotacionesExport, 'votaciones.xlsx');
+        return Excel::download(new VotacionesExport(), 'votaciones.xlsx');
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomizeException;
-use App\Services\UserService;
-use App\Http\Resources\UserResource;
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\UserResource;
+use App\Services\UserService;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
@@ -19,14 +19,15 @@ class UserController extends Controller
 
     public function index()
     {
-        $User=$this->UserService->UserLista();
+        $User = $this->UserService->UserLista();
+
         return UserResource::collection($User);
     }
     public function update(UserRequest $request, $UserId)
     {
         try {
             $validated = $request->validated();
-            $User = $this->UserService->UserActualizar($UserId, $validated);
+            $User      = $this->UserService->UserActualizar($UserId, $validated);
 
             if (!$User) {
                 return response()->json([
@@ -46,9 +47,9 @@ class UserController extends Controller
     public function buscarUser(UserRequest $request)
     {
         try {
-            $query = $request->input('query');
+            $query    = $request->input('query');
             $usuarios = $this->UserService->buscarUser($query);
-    
+
             return UserResource::collection($usuarios);
         } catch (\Exception $e) {
             throw new CustomizeException('Seccional no encontrada', Response::HTTP_NOT_FOUND);
@@ -57,7 +58,8 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $User=$this->UserService->verUser($id);
+        $User = $this->UserService->verUser($id);
+
         return new UserResource($User);
     }
 }

@@ -8,11 +8,11 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-       
+
     ];
 
     public function boot(): void
     {
-       
+
     }
 }

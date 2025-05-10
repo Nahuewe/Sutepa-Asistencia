@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\RolesService;
 use App\Http\Resources\RolesResource;
+use App\Services\RolesService;
 
 class RolesController extends Controller
 {
@@ -16,7 +16,8 @@ class RolesController extends Controller
 
     public function index()
     {
-        $Roles=$this->RolesService->RolesLista();
+        $Roles = $this->RolesService->RolesLista();
+
         return RolesResource::collection($Roles);
     }
 }

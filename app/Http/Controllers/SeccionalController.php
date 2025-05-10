@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\SeccionalService;
 use App\Http\Resources\SeccionalResource;
+use App\Services\SeccionalService;
 
 class SeccionalController extends Controller
 {
@@ -17,6 +17,7 @@ class SeccionalController extends Controller
     public function index()
     {
         $seccional = $this->seccionalService->seccionalLista();
+
         return SeccionalResource::collection($seccional);
     }
 }

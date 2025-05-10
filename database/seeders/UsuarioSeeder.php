@@ -16,21 +16,21 @@ class UsuarioSeeder extends Seeder
 
         DB::table('users')->insert([
             [
-                'nombre' => 'NAHUEL',
-                'apellido' => 'SORIA PARODI',
-                'dni' => '43.532.773',
-                'legajo' => '99999',
-                'password' => Hash::make('99999'),
-                'roles_id' => 1,
+                'nombre'       => 'NAHUEL',
+                'apellido'     => 'SORIA PARODI',
+                'dni'          => '43.532.773',
+                'legajo'       => '99999',
+                'password'     => Hash::make('99999'),
+                'roles_id'     => 1,
                 'seccional_id' => 24,
             ],
             [
-                'nombre' => 'GONZALO RAMIRO',
-                'apellido' => 'TURATI',
-                'dni' => '43.244.978',
-                'legajo' => '11111',
-                'password' => Hash::make('11111'),
-                'roles_id' => 5,
+                'nombre'       => 'GONZALO RAMIRO',
+                'apellido'     => 'TURATI',
+                'dni'          => '43.244.978',
+                'legajo'       => '11111',
+                'password'     => Hash::make('11111'),
+                'roles_id'     => 5,
                 'seccional_id' => 3,
             ]
         ]);

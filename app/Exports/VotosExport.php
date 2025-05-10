@@ -3,10 +3,10 @@
 namespace App\Exports;
 
 use App\Models\Voto;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Carbon\Carbon;
 
 class VotosExport implements FromCollection, WithHeadings
 {
@@ -24,14 +24,14 @@ class VotosExport implements FromCollection, WithHeadings
                                     ->setTimezone('America/Argentina/Buenos_Aires');
 
                 return [
-                    'tipo_votacion' => $voto->votacion->tipo ?? '-',
+                    'tipo_votacion' => $voto->votacion->tipo          ?? '-',
                     'identificador' => $voto->votacion->identificador ?? '-',
-                    'contenido'     => $voto->votacion->contenido ?? '-',
-                    'respuesta'     => ucfirst($voto->respuesta) ?? '-',
-                    'apellido'      => $voto->asistente->apellido ?? '-',
-                    'nombre'        => $voto->asistente->nombre ?? '-',
+                    'contenido'     => $voto->votacion->contenido     ?? '-',
+                    'respuesta'     => ucfirst($voto->respuesta)      ?? '-',
+                    'apellido'      => $voto->asistente->apellido     ?? '-',
+                    'nombre'        => $voto->asistente->nombre       ?? '-',
                     'dni'           => $dniClean,
-                    'legajo'        => $voto->asistente->legajo ?? '-',
+                    'legajo'        => $voto->asistente->legajo            ?? '-',
                     'seccional'     => $voto->asistente->seccional->nombre ?? '-',
                     'fecha'         => $fechaHoraArg->format('d-m-Y'),
                     'hora'          => $fechaHoraArg->format('H:i'),

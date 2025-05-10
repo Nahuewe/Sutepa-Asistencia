@@ -10,11 +10,11 @@ class VotacionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->resource->id,
-            'tipo' => $this->resource->tipo,
+            'id'            => $this->resource->id,
+            'tipo'          => $this->resource->tipo,
             'identificador' => $this->resource->identificador,
-            'contenido' => $this->resource->contenido,
-            'activa_hasta' => $this->resource->activa_hasta,
+            'contenido'     => $this->resource->contenido,
+            'activa_hasta'  => $this->resource->activa_hasta,
         ];
     }
 }

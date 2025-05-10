@@ -12,7 +12,7 @@ class Asistente extends Model
     {
         return $this->belongsTo(Seccional::class, 'seccional_id');
     }
-    
+
     public function ingresos()
     {
         return $this->hasMany(Ingreso::class);

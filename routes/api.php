@@ -1,16 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController,
     OrdenDiariaController,
-    UserController,
+    RegistroController,
     RolesController,
     SeccionalController,
-    RegistroController,
+    UserController,
     VotacionController,
     VotoController
 };
+use Illuminate\Support\Facades\Route;
 
 // Rutas públicas
 Route::post('/registrar', [AuthController::class, 'register']);

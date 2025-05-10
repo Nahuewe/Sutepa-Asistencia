@@ -3,19 +3,19 @@
 namespace App\Exports;
 
 use App\Models\Votacion;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Carbon\Carbon;
 
 class VotacionesExport implements FromCollection, WithHeadings
 {
     public function collection(): Collection
     {
         return Votacion::withCount([
-            'votos as afirmativos' => fn($q) => $q->where('respuesta', 'afirmativo'),
-            'votos as negativos' => fn($q) => $q->where('respuesta', 'negativo'),
-            'votos as abstenciones' => fn($q) => $q->where('respuesta', 'abstencion'),
+            'votos as afirmativos'  => fn ($q) => $q->where('respuesta', 'afirmativo'),
+            'votos as negativos'    => fn ($q) => $q->where('respuesta', 'negativo'),
+            'votos as abstenciones' => fn ($q) => $q->where('respuesta', 'abstencion'),
         ])
         ->get()
         ->map(function ($votacion) {
@@ -23,13 +23,13 @@ class VotacionesExport implements FromCollection, WithHeadings
                                 ->setTimezone('America/Argentina/Buenos_Aires');
 
             return [
-                'tipo' => $votacion->tipo ?? '-',
-                'identificador' => $votacion->identificador ?? '-',
-                'contenido' => $votacion->contenido ?? '-',
-                'afirmativos' => $votacion->afirmativos ?? '-',
-                'negativos' => $votacion->negativos ?? '-',
-                'abstenciones' => $votacion->abstenciones ?? '-',
-                'total_votos' => $votacion->afirmativos + $votacion->negativos + $votacion->abstenciones ?? '-',
+                'tipo'          => $votacion->tipo                                                         ?? '-',
+                'identificador' => $votacion->identificador                                                ?? '-',
+                'contenido'     => $votacion->contenido                                                    ?? '-',
+                'afirmativos'   => $votacion->afirmativos                                                  ?? '-',
+                'negativos'     => $votacion->negativos                                                    ?? '-',
+                'abstenciones'  => $votacion->abstenciones                                                 ?? '-',
+                'total_votos'   => $votacion->afirmativos + $votacion->negativos + $votacion->abstenciones ?? '-',
                 'fecha'         => $fechaHoraArg->format('d-m-Y'),
                 'hora'          => $fechaHoraArg->format('H:i'),
             ];

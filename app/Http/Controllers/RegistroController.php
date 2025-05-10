@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomizeException;
+use App\Exports\EgresosExport;
+use App\Exports\IngresosExport;
 use App\Http\Resources\RegistroResource;
-use Illuminate\Http\Response;
 use App\Models\Egreso;
 use App\Models\Ingreso;
-use Illuminate\Http\Request;
 use App\Services\RegistroService;
-use App\Exports\IngresosExport;
-use App\Exports\EgresosExport;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RegistroController extends Controller
@@ -25,102 +25,103 @@ class RegistroController extends Controller
     public function registrarIngreso(Request $request)
     {
         $validated = $request->validate([
-            'nombre' => 'required|string',
-            'apellido' => 'required|string',
-            'dni' => 'required|string',
-            'legajo' => 'required|string',
-            'seccional' => 'nullable|string',
+            'nombre'       => 'required|string',
+            'apellido'     => 'required|string',
+            'dni'          => 'required|string',
+            'legajo'       => 'required|string',
+            'seccional'    => 'nullable|string',
             'seccional_id' => 'nullable|numeric',
         ]);
-    
+
         if (isset($validated['seccional_id'])) {
             $validated['seccional_id'] = (int) $validated['seccional_id'];
         }
-    
+
         $this->RegistroService->registrarIngreso($validated);
-    
+
         return response()->json(['message' => 'Ingreso registrado correctamente']);
-    }    
+    }
 
     public function registrarEgreso(Request $request)
     {
         $validated = $request->validate([
             'legajo' => 'required|string',
         ]);
-    
+
         try {
             $this->RegistroService->registrarEgreso($validated);
+
             return response()->json(['message' => 'Egreso registrado correctamente']);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         }
     }
-    
+
 
     public function getIngresos(Request $request)
     {
-        $page = $request->query('page', 1);
+        $page     = $request->query('page', 1);
         $ingresos = Ingreso::with('asistente')
             ->paginate(10, ['*'], 'page', $page);
 
         return response()->json([
             'data' => $ingresos->items(),
             'meta' => [
-                'total' => $ingresos->total(),
+                'total'        => $ingresos->total(),
                 'current_page' => $ingresos->currentPage(),
-                'last_page' => $ingresos->lastPage(),
-                'per_page' => $ingresos->perPage(),
-                'from' => $ingresos->firstItem(),
-                'to' => $ingresos->lastItem(),
+                'last_page'    => $ingresos->lastPage(),
+                'per_page'     => $ingresos->perPage(),
+                'from'         => $ingresos->firstItem(),
+                'to'           => $ingresos->lastItem(),
             ]
         ]);
     }
-    
+
     public function getEgresos(Request $request)
     {
-        $page = $request->query('page', 1);
+        $page    = $request->query('page', 1);
         $egresos = Egreso::with('asistente')
-            ->paginate(10, ['*'], 'page', $page); 
+            ->paginate(10, ['*'], 'page', $page);
 
         return response()->json([
             'data' => $egresos->items(),
             'meta' => [
-                'total' => $egresos->total(),
+                'total'        => $egresos->total(),
                 'current_page' => $egresos->currentPage(),
-                'last_page' => $egresos->lastPage(),
-                'per_page' => $egresos->perPage(),
-                'from' => $egresos->firstItem(),
-                'to' => $egresos->lastItem(),
+                'last_page'    => $egresos->lastPage(),
+                'per_page'     => $egresos->perPage(),
+                'from'         => $egresos->firstItem(),
+                'to'           => $egresos->lastItem(),
             ]
         ]);
     }
 
     public function exportarIngresos(Request $request)
     {
-        return Excel::download(new IngresosExport, 'ingresos.xlsx');
+        return Excel::download(new IngresosExport(), 'ingresos.xlsx');
     }
 
     public function exportarEgresos(Request $request)
     {
-        return Excel::download(new EgresosExport, 'egresos.xlsx');
+        return Excel::download(new EgresosExport(), 'egresos.xlsx');
     }
 
     public function buscarRegistro(Request $request)
     {
         try {
-            $query = $request->input('query');
-            $page = $request->query('page', 1);
+            $query    = $request->input('query');
+            $page     = $request->query('page', 1);
             $ingresos = $this->RegistroService->buscarRegistro($query, $page);
-   
+
             return response()->json([
                 'data' => RegistroResource::collection($ingresos->items()),
                 'meta' => [
-                    'total' => $ingresos->total(),
+                    'total'        => $ingresos->total(),
                     'current_page' => $ingresos->currentPage(),
-                    'last_page' => $ingresos->lastPage(),
-                    'per_page' => $ingresos->perPage(),
-                    'from' => $ingresos->firstItem(),
-                    'to' => $ingresos->lastItem(),
+                    'last_page'    => $ingresos->lastPage(),
+                    'per_page'     => $ingresos->perPage(),
+                    'from'         => $ingresos->firstItem(),
+                    'to'           => $ingresos->lastItem(),
                 ]
             ]);
         } catch (\Exception $e) {

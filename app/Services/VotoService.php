@@ -18,6 +18,7 @@ class VotoService
     public function verVoto($id)
     {
         $voto = Voto::where('id', $id)->first();
+
         return $voto;
     }
 
@@ -37,8 +38,8 @@ class VotoService
     protected function validarDatos(array $data): array
     {
         $validator = Validator::make($data, [
-            'votacion_id' => 'required|exists:votacions,id',
-            'respuesta' => 'required|in:afirmativo,negativo,abstencion',
+            'votacion_id'  => 'required|exists:votacions,id',
+            'respuesta'    => 'required|in:afirmativo,negativo,abstencion',
             'asistente_id' => 'required|exists:users,id',
         ]);
 
@@ -53,7 +54,7 @@ class VotoService
     {
         $conteo = [
             'afirmativo' => $votacion->votos()->where('respuesta', 'afirmativo')->count(),
-            'negativo' => $votacion->votos()->where('respuesta', 'negativo')->count(),
+            'negativo'   => $votacion->votos()->where('respuesta', 'negativo')->count(),
             'abstencion' => $votacion->votos()->where('respuesta', 'abstencion')->count(),
         ];
 

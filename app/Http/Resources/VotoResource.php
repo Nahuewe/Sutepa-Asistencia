@@ -10,10 +10,10 @@ class VotoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->resource->id,
-            'votacion_id' => $this->resource->votacion_id,
+            'id'           => $this->resource->id,
+            'votacion_id'  => $this->resource->votacion_id,
             'asistente_id' => $this->resource->asistente_id,
-            'respuesta' => $this->resource->respuesta
+            'respuesta'    => $this->resource->respuesta
         ];
     }
 }

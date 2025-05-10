@@ -4,14 +4,16 @@ namespace App\Events;
 
 use App\Models\Votacion;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class VotoRegistradoEvent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public Votacion $votacion;
     public array $conteo;
@@ -19,7 +21,7 @@ class VotoRegistradoEvent implements ShouldBroadcast
     public function __construct(Votacion $votacion, array $conteo)
     {
         $this->votacion = $votacion;
-        $this->conteo = $conteo;
+        $this->conteo   = $conteo;
     }
 
     public function broadcastOn(): Channel

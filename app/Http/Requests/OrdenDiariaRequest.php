@@ -14,9 +14,9 @@ class SeccionalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipo' => 'required|string|max:255',
+            'tipo'          => 'required|string|max:255',
             'identificador' => 'required|string|max:255',
-            'contenido' => 'required|string',
+            'contenido'     => 'required|string',
         ];
     }
 }

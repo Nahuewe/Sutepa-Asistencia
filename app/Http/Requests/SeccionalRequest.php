@@ -22,8 +22,8 @@ class SeccionalRequest extends FormRequest
     {
         return [
             'nombre.required' => 'El campo nombre es obligatorio.',
-            'nombre.string' => 'El campo nombre debe ser una cadena de texto.',
-            'nombre.max' => 'El campo nombre no puede tener más de 255 caracteres.',
+            'nombre.string'   => 'El campo nombre debe ser una cadena de texto.',
+            'nombre.max'      => 'El campo nombre no puede tener más de 255 caracteres.',
         ];
     }
 }
