@@ -10,8 +10,8 @@ return new class () extends Migration {
         Schema::create('votacions', function (Blueprint $table) {
             $table->id();
             $table->string('tipo');
-            $table->string('identificador');
-            $table->text('contenido');
+            $table->string('identificador')->nullable();
+            $table->text('contenido')->nullable();
             $table->timestamp('activa_hasta')->nullable();
             $table->timestamps();
         });

@@ -25,17 +25,27 @@ class RegistroService
                 ]
             );
 
-            User::updateOrCreate(
-                ['legajo' => $data['legajo']],
-                [
+            $user = User::where('legajo', $data['legajo'])->first();
+
+            if ($user) {
+                $user->update([
                     'nombre'       => $data['nombre'],
                     'apellido'     => $data['apellido'],
                     'dni'          => $data['dni'],
                     'password'     => Hash::make($data['legajo']),
-                    'roles_id'     => 5,
+                    'seccional_id' => $data['seccional_id'] ?? $user->seccional_id,
+                ]);
+            } else {
+                User::create([
+                    'nombre'       => $data['nombre'],
+                    'apellido'     => $data['apellido'],
+                    'dni'          => $data['dni'],
+                    'legajo'       => $data['legajo'],
+                    'password'     => Hash::make($data['legajo']),
+                    'roles_id'     => $data['roles_id']     ?? 5,
                     'seccional_id' => $data['seccional_id'] ?? null,
-                ]
-            );
+                ]);
+            }
 
             return Ingreso::create([
                 'asistente_id'  => $asistente->id,

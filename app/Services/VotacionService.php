@@ -42,8 +42,8 @@ class VotacionService
     {
         $validator = Validator::make($data, [
             'tipo'          => 'required|string',
-            'identificador' => 'required|string',
-            'contenido'     => 'required|string',
+            'identificador' => 'nullable|string',
+            'contenido'     => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
