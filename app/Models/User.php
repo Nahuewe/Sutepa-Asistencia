@@ -18,19 +18,16 @@ class User extends Authenticatable
         'apellido',
         'dni',
         'legajo',
-        'password',
         'roles_id',
         'seccional_id',
     ];
 
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password'          => 'hashed',
     ];
 
     public function rol()

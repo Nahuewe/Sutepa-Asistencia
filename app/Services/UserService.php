@@ -43,9 +43,6 @@ class UserService
         $user->apellido = $data['apellido'] ?? $user->apellido;
         $user->dni      = $data['dni']      ?? $user->dni;
         $user->legajo   = $data['legajo']   ?? $user->legajo;
-        if (isset($data['password'])) {
-            $user->password = Hash::make($data['password']);
-        }
         $user->roles_id     = $data['roles_id']     ?? $user->roles_id;
         $user->seccional_id = $data['seccional_id'] ?? $user->seccional_id;
         $user->save();

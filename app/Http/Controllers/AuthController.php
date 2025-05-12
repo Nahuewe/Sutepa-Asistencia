@@ -15,8 +15,7 @@ class AuthController extends Controller
         $request->validate([
             'nombre'   => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'legajo'   => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:2'
+            'legajo'   => 'required|string|max:255|unique:users'
         ], [
             'legajo.unique' => 'El legajo ya está registrado.',
         ]);
@@ -26,7 +25,6 @@ class AuthController extends Controller
             'apellido'     => $request->apellido,
             'legajo'       => $request->legajo,
             'dni'          => $request->dni,
-            'password'     => Hash::make($request->password),
             'roles_id'     => $request->roles_id ?? 5,
             'seccional_id' => $request->seccional_id,
         ]);
@@ -38,16 +36,9 @@ class AuthController extends Controller
     {
         $request->validate([
             'legajo'   => 'required|string',
-            'password' => 'required|string',
         ]);
 
         $user = User::where('legajo', $request->legajo)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'legajo' => ['El usuario es incorrecto.'],
-            ]);
-        }
 
         return response()->json([
             'token' => $user->createToken($request->legajo)->plainTextToken,

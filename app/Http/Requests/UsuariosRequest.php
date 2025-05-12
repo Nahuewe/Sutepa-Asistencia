@@ -16,7 +16,6 @@ class UsuariosRequest extends FormRequest
         return [
             'nombre'       => 'required|string|max:255',
             'apellido'     => 'required|string|max:255',
-            'password'     => 'required|string|max:255',
             'roles_id'     => 'required|exists:roles,id',
             'seccional_id' => 'nullable|exists:seccional,id',
         ];
@@ -31,9 +30,6 @@ class UsuariosRequest extends FormRequest
             'apellido.required' => 'El campo apellido es obligatorio.',
             'apellido.string'   => 'El campo apellido debe ser una cadena de texto.',
             'apellido.max'      => 'El campo apellido no puede tener más de 255 caracteres.',
-            'password.required' => 'El campo contraseña es obligatorio.',
-            'password.string'   => 'El campo contraseña debe ser una cadena de texto.',
-            'password.max'      => 'El campo contraseña no puede tener más de 255 caracteres.',
             'roles_id.required' => 'El campo rol es obligatorio.',
             'roles_id.exists'   => 'El rol seleccionado no es válido.',
         ];
