@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -39,10 +38,10 @@ class UserService
             return response()->json(['message' => 'Usuario no encontrado'], 404);
         }
 
-        $user->nombre   = $data['nombre']   ?? $user->nombre;
-        $user->apellido = $data['apellido'] ?? $user->apellido;
-        $user->dni      = $data['dni']      ?? $user->dni;
-        $user->legajo   = $data['legajo']   ?? $user->legajo;
+        $user->nombre       = $data['nombre']       ?? $user->nombre;
+        $user->apellido     = $data['apellido']     ?? $user->apellido;
+        $user->dni          = $data['dni']          ?? $user->dni;
+        $user->legajo       = $data['legajo']       ?? $user->legajo;
         $user->roles_id     = $data['roles_id']     ?? $user->roles_id;
         $user->seccional_id = $data['seccional_id'] ?? $user->seccional_id;
         $user->save();

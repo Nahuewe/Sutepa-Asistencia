@@ -68,6 +68,20 @@ class VotacionController extends Controller
         return response()->json($usuarios);
     }
 
+    public function detener($id)
+    {
+        $votacion = Votacion::find($id);
+
+        if (!$votacion) {
+            return response()->json(['message' => 'Votación no encontrada'], 404);
+        }
+
+        $votacion->activa_hasta = now();
+        $votacion->save();
+
+        return response()->json(['message' => 'Votación detenida correctamente']);
+    }
+
     public function exportarVotaciones()
     {
         return Excel::download(new VotacionesExport(), 'votaciones.xlsx');

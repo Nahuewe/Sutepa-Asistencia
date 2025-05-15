@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/votaciones/{id}/conteo', [VotacionController::class, 'obtenerConteo']);
     Route::get('/votaciones/{id}/respuestas', [VotoController::class, 'votosPorVotacion']);
     Route::get('/votaciones/{votacion}/no-votaron', [VotacionController::class, 'usuariosNoVotaron']);
+    Route::post('/votaciones/{id}/detener', [VotacionController::class, 'detener']);
 
     // Votos
     Route::get('/votos/exportar', [VotoController::class, 'exportarVotos']);
