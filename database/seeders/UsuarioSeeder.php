@@ -21,14 +21,6 @@ class UsuarioSeeder extends Seeder
                 'legajo'       => '99999',
                 'roles_id'     => 1,
                 'seccional_id' => 24,
-            ],
-            [
-                'nombre'       => 'GONZALO RAMIRO',
-                'apellido'     => 'TURATI',
-                'dni'          => '43.244.978',
-                'legajo'       => '11111',
-                'roles_id'     => 5,
-                'seccional_id' => 3,
             ]
         ]);
     }

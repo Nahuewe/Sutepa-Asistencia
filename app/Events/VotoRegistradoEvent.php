@@ -26,7 +26,7 @@ class VotoRegistradoEvent implements ShouldBroadcast
 
     public function broadcastOn(): Channel
     {
-        return new Channel('votacions');
+        return new Channel('votaciones');
     }
 
     public function broadcastAs(): string

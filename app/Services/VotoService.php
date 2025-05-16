@@ -38,7 +38,7 @@ class VotoService
     protected function validarDatos(array $data): array
     {
         $validator = Validator::make($data, [
-            'votacion_id'  => 'required|exists:votacions,id',
+            'votacion_id'  => 'required|exists:votaciones,id',
             'respuesta'    => 'required|in:afirmativo,negativo,abstencion',
             'asistente_id' => 'required|exists:users,id',
         ]);
