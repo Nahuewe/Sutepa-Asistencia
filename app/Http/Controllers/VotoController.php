@@ -46,7 +46,7 @@ class VotoController extends Controller
     public function verificarVoto(Request $request)
     {
         $request->validate([
-            'votacion_id'  => 'required|exists:votaciones,id',
+            'votacion_id'  => 'required|exists:votacions,id',
             'asistente_id' => 'required|exists:users,id',
         ]);
 
