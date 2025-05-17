@@ -44,6 +44,26 @@ class UserController extends Controller
         }
     }
 
+    public function destroy($id)
+    {
+        try {
+            $user = $this->UserService->eliminarUser($id);
+
+            if (!$user) {
+                return response()->json([
+                    'message' => 'Usuario no encontrado',
+                ], 404);
+            }
+
+            return response()->json([
+                'message' => 'Usuario eliminado exitosamente',
+            ], 200);
+        } catch (\Exception $e) {
+            throw new CustomizeException($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, $e);
+        }
+    }
+
+
     public function buscarUser(UserRequest $request)
     {
         try {

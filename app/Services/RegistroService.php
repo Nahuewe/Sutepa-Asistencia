@@ -24,7 +24,7 @@ class RegistroService
                 ]
             );
 
-            $user = User::where('legajo', $data['legajo'])->first();
+            $user = User::withTrashed()->where('legajo', $data['legajo'])->first();
 
             if ($user) {
                 $user->update([
@@ -33,6 +33,10 @@ class RegistroService
                     'dni'          => $data['dni'],
                     'seccional_id' => $data['seccional_id'] ?? $user->seccional_id,
                 ]);
+
+                if ($user->trashed()) {
+                    $user->restore();
+                }
             } else {
                 User::create([
                     'nombre'       => $data['nombre'],

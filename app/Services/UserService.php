@@ -48,4 +48,17 @@ class UserService
 
         return $user;
     }
+
+    public function eliminarUser($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return null;
+        }
+
+        $user->delete();
+
+        return $user;
+    }
 }
