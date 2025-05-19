@@ -26,7 +26,7 @@ class VotacionController extends Controller
         $votacion = $this->votacionService->verVotacion($id);
 
         if (!$votacion) {
-            return response()->json(['message' => 'Votación no encontrada'], 404);
+            return response()->json(['message' => 'Votaci車n no encontrada'], 404);
         }
 
         return new VotacionResource($votacion);
@@ -57,18 +57,50 @@ class VotacionController extends Controller
         return response()->json($usuarios);
     }
 
+    protected function utf8ize($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data[$key] = $this->utf8ize($value);
+            }
+        } elseif (is_string($data)) {
+            return mb_convert_encoding($data, 'UTF-8', 'UTF-8');
+        }
+
+        return $data;
+    }
+
     public function detener($id)
     {
         $votacion = Votacion::find($id);
 
         if (!$votacion) {
-            return response()->json(['message' => 'Votación no encontrada'], 404);
+            return response()
+                ->json(
+                    ['message' => 'Votación no encontrada'],
+                    404,
+                    [],
+                    JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_UNICODE
+                );
         }
 
         $votacion->activa_hasta = now();
         $votacion->save();
 
-        return response()->json(['message' => 'Votación detenida correctamente']);
+        $response = [
+            'message'  => 'Votación detenida correctamente',
+            'votacion' => $votacion,
+        ];
+
+        $clean = $this->utf8ize($response);
+
+        return response()
+            ->json(
+                $clean,
+                200,
+                [],
+                JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_UNICODE
+            );
     }
 
     public function exportarVotaciones()
