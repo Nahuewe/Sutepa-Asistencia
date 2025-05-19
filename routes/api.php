@@ -23,7 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Votaciones
     Route::get('/votaciones/exportar', [VotacionController::class, 'exportarVotaciones']);
     Route::apiResource('/votaciones', VotacionController::class);
-    Route::get('/votaciones/{id}/conteo', [VotacionController::class, 'obtenerConteo']);
     Route::get('/votaciones/{id}/respuestas', [VotoController::class, 'votosPorVotacion']);
     Route::get('/votaciones/{votacion}/no-votaron', [VotacionController::class, 'usuariosNoVotaron']);
     Route::post('/votaciones/{id}/detener', [VotacionController::class, 'detener']);
@@ -31,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Votos
     Route::get('/votos/exportar', [VotoController::class, 'exportarVotos']);
     Route::apiResource('/votos', VotoController::class);
+    Route::post('/votos/respuestas-multiples', [VotoController::class, 'respuestasPorVotaciones']);
     Route::post('/votos/verificar', [VotoController::class, 'verificarVoto']);
 
     // Escaneo de QR

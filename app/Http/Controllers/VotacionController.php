@@ -44,25 +44,14 @@ class VotacionController extends Controller
         return response()->json($votacion);
     }
 
-    public function obtenerConteo($id)
-    {
-        $votacion = Votacion::findOrFail($id);
-
-        $conteo = [
-            'afirmativo' => $votacion->votos()->where('respuesta', 'afirmativo')->count(),
-            'negativo'   => $votacion->votos()->where('respuesta', 'negativo')->count(),
-            'abstencion' => $votacion->votos()->where('respuesta', 'abstencion')->count(),
-        ];
-
-        return response()->json($conteo);
-    }
-
     public function usuariosNoVotaron(Votacion $votacion)
     {
-        $usuarios = User::whereDoesntHave('votos', function ($q) use ($votacion) {
-            $q->where('votacion_id', $votacion->id);
+        $usuarios = User::whereNotIn('id', function ($query) use ($votacion) {
+            $query->select('asistente_id')
+                  ->from('votos')
+                  ->where('votacion_id', $votacion->id);
         })
-        ->select(['id as asistente_id', 'nombre', 'apellido'])
+        ->select('id as asistente_id', 'nombre', 'apellido')
         ->get();
 
         return response()->json($usuarios);
