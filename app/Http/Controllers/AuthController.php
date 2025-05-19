@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Auditoria;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ class AuthController extends Controller
             'apellido' => 'required|string|max:255',
             'legajo'   => 'required|string|max:255|unique:users'
         ], [
-            'legajo.unique' => 'El legajo ya está registrado.',
+            'legajo.unique' => 'El legajo ya está registrado, por favor, escanea la credencial del afiliado para reingresarlo.',
         ]);
 
         $user = User::create([
@@ -27,19 +28,41 @@ class AuthController extends Controller
             'seccional_id' => $request->seccional_id,
         ]);
 
+        Auditoria::create([
+            'user_id'    => auth()->id(),
+            'accion'     => 'Creación',
+            'modelo'     => 'Usuario',
+            'modelo_id'  => $user->id,
+            'datos'      => json_encode($user),
+        ]);
+
         return response()->json($user, 201);
     }
 
     public function login(Request $request)
     {
         $request->validate([
-            'legajo'   => 'required|string',
+            'legajo' => 'required|string',
         ]);
 
         $user = User::where('legajo', $request->legajo)->first();
 
+        if (! $user) {
+            return response()->json(['error' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        $token = $user->createToken($request->legajo)->plainTextToken;
+
+        Auditoria::create([
+            'user_id'    => $user->id,
+            'accion'     => 'login',
+            'modelo'     => 'Usuario',
+            'modelo_id'  => $user->id,
+            'datos'      => json_encode(['legajo' => $request->legajo]),
+        ]);
+
         return response()->json([
-            'token' => $user->createToken($request->legajo)->plainTextToken,
+            'token' => $token,
             'user'  => [
                 "id"           => $user->id,
                 "nombre"       => $user->nombre,

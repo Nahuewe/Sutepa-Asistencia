@@ -26,6 +26,13 @@ class VotoController extends Controller
         $this->VotoService = $VotoService;
     }
 
+        public function store(Request $request)
+    {
+        $Voto = $this->VotoService->registrarVoto($request->all());
+
+        return response()->json($Voto);
+    }
+
     public function show($id)
     {
         $Voto = $this->VotoService->verVoto($id);
@@ -35,13 +42,6 @@ class VotoController extends Controller
         }
 
         return new VotoResource($Voto);
-    }
-
-    public function store(Request $request)
-    {
-        $Voto = $this->VotoService->registrarVoto($request->all());
-
-        return response()->json($Voto);
     }
 
     public function verificarVoto(Request $request)

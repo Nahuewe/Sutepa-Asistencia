@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomizeException;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Auditoria;
 use App\Services\UserService;
 use Illuminate\Http\Response;
 
@@ -23,11 +24,20 @@ class UserController extends Controller
 
         return UserResource::collection($User);
     }
+
+    public function show($id)
+    {
+        $User = $this->UserService->verUser($id);
+
+        return new UserResource($User);
+    }
+
     public function update(UserRequest $request, $UserId)
     {
         try {
             $validated = $request->validated();
-            $User      = $this->UserService->UserActualizar($UserId, $validated);
+
+            $User = $this->UserService->UserActualizar($UserId, $validated);
 
             if (!$User) {
                 return response()->json([
@@ -38,7 +48,6 @@ class UserController extends Controller
             return response()->json([
                 "message" => "User actualizado exitosamente",
             ], 200);
-
         } catch (\Exception $e) {
             throw new CustomizeException($e->getMessage(), \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR, $e);
         }
@@ -47,13 +56,22 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $user = $this->UserService->eliminarUser($id);
+            $user = $this->UserService->verUser($id);
+            $resultado = $this->UserService->eliminarUser($id);
 
-            if (!$user) {
+            if (!$resultado) {
                 return response()->json([
                     'message' => 'Usuario no encontrado',
                 ], 404);
             }
+
+            Auditoria::create([
+                'user_id'    => auth()->id(),
+                'accion'     => 'Eliminar',
+                'modelo'     => 'Usuario',
+                'modelo_id'  => $id,
+                'datos'      => json_encode($user),
+            ]);
 
             return response()->json([
                 'message' => 'Usuario eliminado exitosamente',
@@ -62,7 +80,6 @@ class UserController extends Controller
             throw new CustomizeException($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, $e);
         }
     }
-
 
     public function buscarUser(UserRequest $request)
     {
@@ -74,12 +91,5 @@ class UserController extends Controller
         } catch (\Exception $e) {
             throw new CustomizeException('Seccional no encontrada', Response::HTTP_NOT_FOUND);
         }
-    }
-
-    public function show($id)
-    {
-        $User = $this->UserService->verUser($id);
-
-        return new UserResource($User);
     }
 }

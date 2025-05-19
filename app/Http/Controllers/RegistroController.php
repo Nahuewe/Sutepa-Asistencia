@@ -6,6 +6,7 @@ use App\Exceptions\CustomizeException;
 use App\Exports\EgresosExport;
 use App\Exports\IngresosExport;
 use App\Http\Resources\RegistroResource;
+use App\Models\Auditoria;
 use App\Models\Egreso;
 use App\Models\Ingreso;
 use App\Services\RegistroService;
@@ -37,7 +38,15 @@ class RegistroController extends Controller
             $validated['seccional_id'] = (int) $validated['seccional_id'];
         }
 
-        $this->RegistroService->registrarIngreso($validated);
+        $ingreso = $this->RegistroService->registrarIngreso($validated);
+
+        Auditoria::create([
+            'user_id'    => auth()->id(),
+            'accion'     => 'Ingreso',
+            'modelo'     => 'Ingreso',
+            'modelo_id'  => $ingreso->id ?? null,
+            'datos'      => json_encode($validated),
+        ]);
 
         return response()->json(['message' => 'Ingreso registrado correctamente']);
     }
@@ -49,14 +58,21 @@ class RegistroController extends Controller
         ]);
 
         try {
-            $this->RegistroService->registrarEgreso($validated);
+            $egreso = $this->RegistroService->registrarEgreso($validated);
+
+            Auditoria::create([
+                'user_id'    => auth()->id(),
+                'accion'     => 'Egreso',
+                'modelo'     => 'Egreso',
+                'modelo_id'  => $egreso->id ?? null,
+                'datos'      => json_encode($validated),
+            ]);
 
             return response()->json(['message' => 'Egreso registrado correctamente']);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         }
     }
-
 
     public function getIngresos(Request $request)
     {
@@ -96,16 +112,6 @@ class RegistroController extends Controller
         ]);
     }
 
-    public function exportarIngresos(Request $request)
-    {
-        return Excel::download(new IngresosExport(), 'ingresos.xlsx');
-    }
-
-    public function exportarEgresos(Request $request)
-    {
-        return Excel::download(new EgresosExport(), 'egresos.xlsx');
-    }
-
     public function buscarRegistro(Request $request)
     {
         try {
@@ -127,5 +133,15 @@ class RegistroController extends Controller
         } catch (\Exception $e) {
             throw new CustomizeException('Error al buscar registros: ' . $e->getMessage(), Response::HTTP_NOT_FOUND);
         }
+    }
+
+    public function exportarIngresos()
+    {
+        return Excel::download(new IngresosExport(), 'ingresos.xlsx');
+    }
+
+    public function exportarEgresos()
+    {
+        return Excel::download(new EgresosExport(), 'egresos.xlsx');
     }
 }

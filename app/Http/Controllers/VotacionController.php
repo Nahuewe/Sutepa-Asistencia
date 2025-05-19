@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\VotacionesExport;
 use App\Http\Resources\VotacionResource;
+use App\Models\Auditoria;
 use App\Models\User;
 use App\Models\Votacion;
 use App\Services\VotacionService;
@@ -41,6 +42,14 @@ class VotacionController extends Controller
     {
         $votacion = $this->votacionService->crearVotacion($request->all());
 
+        Auditoria::create([
+            'user_id'    => auth()->id(),
+            'accion'     => 'Creación',
+            'modelo'     => 'Votacion',
+            'modelo_id'  => $votacion->id,
+            'datos'      => json_encode($votacion),
+        ]);
+
         return response()->json($votacion);
     }
 
@@ -48,11 +57,11 @@ class VotacionController extends Controller
     {
         $usuarios = User::whereNotIn('id', function ($query) use ($votacion) {
             $query->select('asistente_id')
-                  ->from('votos')
-                  ->where('votacion_id', $votacion->id);
+                ->from('votos')
+                ->where('votacion_id', $votacion->id);
         })
-        ->select('id as asistente_id', 'nombre', 'apellido')
-        ->get();
+            ->select('id as asistente_id', 'nombre', 'apellido')
+            ->get();
 
         return response()->json($usuarios);
     }
@@ -86,6 +95,14 @@ class VotacionController extends Controller
 
         $votacion->activa_hasta = now();
         $votacion->save();
+
+        Auditoria::create([
+            'user_id'    => auth()->id(),
+            'accion'     => 'Detener',
+            'modelo'     => 'Votacion',
+            'modelo_id'  => $id,
+            'datos'      => json_encode($votacion),
+        ]);
 
         $response = [
             'message'  => 'Votación detenida correctamente',

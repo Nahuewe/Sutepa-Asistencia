@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
+    AuditoriaController,
     AuthController,
     OrdenDiariaController,
     RegistroController,
@@ -19,6 +20,9 @@ Route::post('/refresh-token', [AuthController::class, 'refreshToken'])->middlewa
 
 // Rutas protegidas
 Route::middleware('auth:sanctum')->group(function () {
+
+    // Auditoria
+    Route::get('/auditoria', [AuditoriaController::class, 'index'])->middleware('auth');
 
     // Votaciones
     Route::get('/votaciones/exportar', [VotacionController::class, 'exportarVotaciones']);
