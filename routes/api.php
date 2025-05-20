@@ -21,9 +21,6 @@ Route::post('/refresh-token', [AuthController::class, 'refreshToken'])->middlewa
 // Rutas protegidas
 Route::middleware('auth:sanctum')->group(function () {
 
-    // Auditoria
-    Route::get('/auditoria', [AuditoriaController::class, 'index'])->middleware('auth');
-
     // Votaciones
     Route::get('/votaciones/exportar', [VotacionController::class, 'exportarVotaciones']);
     Route::apiResource('/votaciones', VotacionController::class);
@@ -48,11 +45,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/egreso/exportar', [RegistroController::class, 'exportarEgresos']);
     Route::get('buscar-registro', [RegistroController::class, 'buscarRegistro']);
 
+    // Auditoria
+    Route::get('/auditoria/exportar', [AuditoriaController::class, 'exportarAuditoria']);
+    Route::get('/auditoria', [AuditoriaController::class, 'index'])->middleware('auth');
+
     // Usuarios
     Route::get('buscar-user', [UserController::class, 'buscarUser']);
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/roles', RolesController::class);
     Route::apiResource('/seccionales', SeccionalController::class);
-    Route::apiResource('/ordenes-diarias', OrdenDiariaController::class);
 
+    // Ordenes Diarias
+    Route::apiResource('/ordenes-diarias', OrdenDiariaController::class);
 });
